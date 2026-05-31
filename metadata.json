@@ -1,0 +1,6 @@
+{
+  "name": "Wightwick Dental Practice",
+  "description": "A mobile-first sticky header and web interface for a UK private dental practice.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
