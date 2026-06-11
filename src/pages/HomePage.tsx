@@ -27,7 +27,7 @@ const treatments = [
     title: "Implant Treatments",
     description:
       "Permanent, natural-looking solutions for missing teeth, from single implants to full arches.",
-    priceLabel: "Comprehensive Pricing",
+    priceLabel: "Treatment Price",
     pricingList: [
       { treatment: "Consultation", price: "£75" },
       { treatment: "Implant placement - from", price: "£1300" },
@@ -47,7 +47,7 @@ const treatments = [
     title: "Oral Surgery",
     description:
       "Expert surgical procedures including complex wisdom tooth removal and apicectomy.",
-    priceLabel: "View Fee Guide",
+    priceLabel: "Treatment Price",
     pricingList: [
       { treatment: "Assessment", price: "£65" },
       { treatment: "Wisdom tooth removal from", price: "£250" },
@@ -67,7 +67,7 @@ const treatments = [
     title: "X-Rays & 3D Scans",
     description:
       "State-of-the-art 3D CBCT imaging for precise implant planning and complex diagnostics.",
-    priceLabel: "Scan Pricing",
+    priceLabel: "Treatment Price",
     pricingList: [
       { treatment: "Panoral", price: "£59" },
       { treatment: "3D small from", price: "£75" },
@@ -77,9 +77,25 @@ const treatments = [
   },
 ];
 
+const heroImages = [
+  "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=2000",
+  "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&q=80&w=2000",
+  "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=2000",
+  "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=2000",
+  "https://images.unsplash.com/photo-1629909615184-74f495363b67?auto=format&fit=crop&q=80&w=2000"
+];
+
 export function HomePage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -171,15 +187,23 @@ export function HomePage() {
 
       {/* Hero Section */}
       <main className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image & Overlay */}
-        <div
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage:
-              'url("https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=2000")',
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+        {/* Premium cross-fading & slow-forward zoom sliding background carousel */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          {heroImages.map((image, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-[1200ms] ease-in-out transform ${
+                index === currentImageIndex
+                  ? "opacity-100 scale-100 pointer-events-auto"
+                  : "opacity-0 scale-105 pointer-events-none"
+              }`}
+              style={{
+                backgroundImage: `url("${image}")`,
+              }}
+            />
+          ))}
+          {/* Rich cinematic gradient overlay for extreme text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/25 z-[1]"></div>
         </div>
 
         {/* Content */}
@@ -191,7 +215,8 @@ export function HomePage() {
             hidden: {},
             visible: {
               transition: {
-                staggerChildren: 0.15
+                staggerChildren: 0.2,
+                delayChildren: 0.1
               }
             }
           }}
@@ -199,40 +224,105 @@ export function HomePage() {
           <motion.h1 
             className="font-['Playfair_Display'] font-extrabold text-[36px] md:text-[48px] text-white leading-tight mb-4 max-w-4xl drop-shadow-xl [text-shadow:_0_4px_8px_rgb(0_0_0_/_40%)]"
             variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+              hidden: { opacity: 0, y: 20 },
+              visible: { 
+                opacity: 1, 
+                y: 0,
+                transition: { 
+                  duration: 1.6,
+                  ease: [0.16, 1, 0.3, 1]
+                } 
+              }
             }}
           >
-            <span className="text-[#1B4332] bg-white/95 px-4 py-0.5 rounded-2xl inline-block mr-2 shadow-md [text-shadow:none]">Deluxe</span> Dental Care in Wolverhampton
+            <motion.span 
+              className="text-[#1B4332] bg-white/95 px-4 py-0.5 rounded-2xl inline-block mr-2 shadow-md [text-shadow:none]"
+              variants={{
+                hidden: { scale: 0.9, opacity: 0 },
+                visible: { 
+                  scale: 1, 
+                  opacity: 1,
+                  transition: { 
+                    duration: 1.4,
+                    ease: [0.16, 1, 0.3, 1],
+                    delay: 0.3
+                  }
+                }
+              }}
+            >
+              Deluxe
+            </motion.span>{" "}
+            Dental Care in Wolverhampton
           </motion.h1>
           <motion.p 
             className="font-['Lato'] text-[18px] text-gray-100 font-medium tracking-wider mb-10 max-w-2xl px-2 drop-shadow-md"
             variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+              hidden: { opacity: 0, y: 15, filter: "blur(3px)" },
+              visible: { 
+                opacity: 1, 
+                y: 0, 
+                filter: "blur(0px)",
+                transition: { 
+                  duration: 1.8,
+                  ease: [0.16, 1, 0.3, 1]
+                } 
+              }
             }}
           >
             State-of-the-art diagnostics. Purpose-built facility. Unmatched
             comfort.
           </motion.p>
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 mt-8 items-center justify-center w-full"
+            className="flex flex-col sm:flex-row gap-5 mt-8 items-center justify-center w-full"
             variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+              hidden: { opacity: 0, y: 15 },
+              visible: { opacity: 1, y: 0, transition: { duration: 1.8, ease: [0.16, 1, 0.3, 1] } }
             }}
           >
-            <a
+            <motion.a
               href="#booking-section"
-              className="bg-[#009A5A] text-white px-8 py-3.5 rounded-full font-bold inline-flex items-center justify-center transition-all duration-300 hover:scale-105 hover:shadow-xl hover:bg-green-600 shadow-lg w-full sm:w-auto text-[16px] tracking-wide select-none"
+              className="bg-[#009A5A] text-white px-8 py-4 rounded-full font-bold inline-flex items-center justify-center shadow-lg w-full sm:w-auto text-[16px] tracking-wide select-none cursor-pointer"
+              animate={{
+                scale: [1, 1.045, 1],
+                boxShadow: [
+                  "0 6px 15px rgba(0, 154, 90, 0.35)",
+                  "0 14px 32px rgba(0, 154, 90, 0.65)",
+                  "0 6px 15px rgba(0, 154, 90, 0.35)"
+                ]
+              }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              whileHover={{ 
+                scale: 1.08, 
+                backgroundColor: "#00b368",
+                boxShadow: "0 14px 35px rgba(0, 154, 90, 0.7)" 
+              }}
+              whileTap={{ scale: 0.95 }}
             >
               Book Consultation
-            </a>
-            <button
-              className="bg-transparent border-2 border-white text-white px-8 py-3.5 rounded-full font-bold inline-flex items-center justify-center transition-all duration-300 hover:bg-white hover:text-green-700 hover:scale-105 w-full sm:w-auto text-[16px] tracking-wide select-none"
+            </motion.a>
+            <motion.button
+              onClick={() => {
+                const element = document.getElementById("treatments");
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold inline-flex items-center justify-center w-full sm:w-auto text-[16px] tracking-wide select-none cursor-pointer"
+              whileHover={{ 
+                scale: 1.03, 
+                backgroundColor: "rgba(255, 255, 255, 0.15)",
+                borderColor: "rgba(255, 255, 255, 1)",
+                boxShadow: "0 10px 25px rgba(255, 255, 255, 0.12)"
+              }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
               Explore Our Clinic
-            </button>
+            </motion.button>
           </motion.div>
         </motion.div>
       </main>

@@ -9,6 +9,7 @@ interface TeamCardProps {
   name: string;
   qualifications: string;
   gdc: string;
+  image?: string;
 }
 
 export const TeamCard: React.FC<TeamCardProps> = ({
@@ -17,6 +18,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
   name,
   qualifications,
   gdc,
+  image,
 }) => {
   return (
     <motion.div
@@ -26,12 +28,22 @@ export const TeamCard: React.FC<TeamCardProps> = ({
     >
       <Link to={`/team/${slug}`} className="flex flex-col h-full">
         {/* Image Placeholder */}
-        <div className="bg-gray-100 w-full aspect-video flex flex-col items-center justify-center text-gray-400 group-hover:bg-gray-200 transition-colors duration-300">
-          <User className="w-10 h-10 mb-2 opacity-50" />
-          <span className="text-[10px] font-medium tracking-widest uppercase opacity-70">
-            Photo Coming Soon
-          </span>
-        </div>
+        {image ? (
+          <div className="w-full aspect-[4/5] overflow-hidden bg-gray-100">
+            <img 
+              src={image} 
+              alt={name} 
+              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out" 
+            />
+          </div>
+        ) : (
+          <div className="bg-gray-100 w-full aspect-video flex flex-col items-center justify-center text-gray-400 group-hover:bg-gray-200 transition-colors duration-300">
+            <User className="w-10 h-10 mb-2 opacity-50" />
+            <span className="text-[10px] font-medium tracking-widest uppercase opacity-70">
+              Photo Coming Soon
+            </span>
+          </div>
+        )}
 
         <div className="p-5 flex flex-col flex-grow">
           <h4 className="text-[10px] sm:text-[11px] font-bold text-[#00a86b] uppercase tracking-wider mb-2 font-['Lato']">

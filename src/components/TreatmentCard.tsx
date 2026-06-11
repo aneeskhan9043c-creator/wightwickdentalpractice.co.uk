@@ -100,14 +100,14 @@ export const TreatmentCard: React.FC<TreatmentCardProps> = ({
             {description}
           </p>
 
-          <div className="flex flex-col gap-3 items-stretch sm:flex-row sm:justify-between sm:items-center pt-2 pb-4 border-t border-gray-100 mt-auto">
+          <div className="flex flex-col gap-3 items-stretch sm:flex-row sm:justify-between sm:items-center pt-3 pb-4 border-t border-gray-100 mt-auto">
             <div className="flex flex-col text-left w-full sm:w-auto">
-              <span className="text-sm font-semibold text-gray-500 font-['Lato'] text-left">
+              <span className="text-[18px] md:text-[20px] font-black text-[#009A5A] font-['Playfair_Display'] tracking-wider text-left uppercase">
                 {priceLabel}
               </span>
             </div>
             <DialogTrigger asChild>
-              <button className="w-full sm:w-auto text-center bg-white hover:bg-[#00a86b] text-gray-900 hover:text-white border border-gray-200 hover:border-[#00a86b] px-4 py-2 rounded-[8px] text-[13px] font-bold transition-all duration-300 shadow-sm">
+              <button className="w-full sm:w-auto text-center bg-white hover:bg-[#00a86b] text-gray-900 hover:text-white border border-gray-200 hover:border-[#00a86b] px-4 py-2.5 rounded-[8px] text-[13px] font-bold transition-all duration-300 shadow-sm cursor-pointer hover:scale-105 active:scale-95">
                 View Details
               </button>
             </DialogTrigger>

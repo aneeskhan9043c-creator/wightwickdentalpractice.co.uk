@@ -82,8 +82,6 @@ export const TestimonialsSection: React.FC = () => {
       className="py-24 bg-gradient-to-b from-[#F9F9F9] to-white border-t border-gray-100 overflow-hidden relative" 
       id="testimonials"
     >
-      {/* Decorative Brand Accent Line at the top for brand green (#1B4332) visual separation */}
-      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1B4332] via-[#00A669] to-[#1B4332]" />
       
       {/* CSS Animation Blocks for Infinite Autonomous Slow Scrolling Rightwards */}
       <style dangerouslySetInnerHTML={{ __html: `
@@ -111,14 +109,38 @@ export const TestimonialsSection: React.FC = () => {
         {/* Centered High-Impact Premium Google Header */}
         <div className="flex flex-col items-center justify-center text-center max-w-3xl mx-auto mb-20">
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-120px" }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.16,
+                  delayChildren: 0.05,
+                }
+              }
+            }}
             className="flex flex-col items-center"
           >
-            {/* Grand Google SVG logo in the center */}
-            <div className="w-16 h-16 bg-white border border-gray-150 shadow-md rounded-2xl flex items-center justify-center mb-6 hover:scale-105 transition-transform duration-300">
+            {/* Grand Google SVG logo in the center with custom 3D spring scale entrance */}
+            <motion.div
+              variants={{
+                hidden: { scale: 0, opacity: 0, rotate: -20 },
+                visible: { 
+                  scale: 1, 
+                  opacity: 1, 
+                  rotate: 0,
+                  transition: { 
+                    type: "spring", 
+                    stiffness: 240, 
+                    damping: 18 
+                  } 
+                }
+              }}
+              className="w-16 h-16 bg-white border border-gray-150 shadow-lg rounded-2xl flex items-center justify-center mb-6 hover:scale-105 active:scale-95 transition-all duration-300"
+            >
               <svg className="w-9 h-9" viewBox="0 0 24 24">
                 <path
                   fill="#4285F4"
@@ -137,32 +159,75 @@ export const TestimonialsSection: React.FC = () => {
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
                 />
               </svg>
-            </div>
+            </motion.div>
 
-            <h2 className="font-['Playfair_Display'] text-4xl md:text-5xl font-extrabold text-[#1B4332] mb-3">
+            {/* Score Heading with slide up and ease */}
+            <motion.h2
+              variants={{
+                hidden: { y: 25, opacity: 0 },
+                visible: { 
+                  y: 0, 
+                  opacity: 1, 
+                  transition: { type: "spring", stiffness: 120, damping: 16 } 
+                }
+              }}
+              className="font-['Playfair_Display'] text-4xl md:text-5xl font-extrabold text-[#1B4332] mb-3"
+            >
               4.9 out of 5 Stars
-            </h2>
+            </motion.h2>
 
-            {/* 5 large gold stars */}
-            <div className="flex items-center gap-1.5 mb-5 select-none hover:scale-102 transition-transform duration-300">
+            {/* 5 gold stars popping up one by one sequentially with custom delays */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.1,
+                  }
+                }
+              }}
+              className="flex items-center gap-1.5 mb-5 select-none"
+            >
               {[...Array(5)].map((_, i) => (
-                <Star key={i} size={28} className="fill-amber-400 text-amber-400 drop-shadow-sm" />
-              ))}
-            </div>
+                <motion.div
+                  key={i}
+                  variants={{
+                    hidden: { scale: 0, rotate: -35, opacity: 0 },
+                    visible: { 
+                      scale: 1, 
+                      rotate: 0, 
+                      opacity: 1,
+                      transition: { type: "spring", stiffness: 220, damping: 12 } 
+                    }
+                  }}
+                >
+                  <Star size={28} className="fill-amber-400 text-amber-400 drop-shadow-sm select-none" />
+                </motion.div>
+               ))}
+            </motion.div>
 
-            <p className="font-['Lato'] text-[#555] text-lg font-semibold tracking-wide">
+            {/* Badge statement */}
+            <motion.p
+              variants={{
+                hidden: { y: 15, opacity: 0 },
+                visible: { 
+                  y: 0, 
+                  opacity: 1, 
+                  transition: { type: "spring", stiffness: 100, damping: 15 } 
+                }
+              }}
+              className="font-['Lato'] text-[#555] text-lg font-semibold tracking-wide"
+            >
               Based on 43 Verified Google Reviews
-            </p>
+            </motion.p>
           </motion.div>
         </div>
 
         {/* =========================================================================
-            DESKTOP SLAB VIEW (Autonomous infinite slow scrolling rightwards)
+            UNIFIED RESPONISVE SLAB VIEW (Autonomous infinite slow scrolling rightwards on all devices)
             ========================================================================= */}
-        <div className="hidden md:block relative w-full group py-4 overflow-hidden">
-          {/* Subtle horizontal side feathering gradients for ultimate premium depth */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#F9F9F9] to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+        <div className="relative w-full group py-4 overflow-hidden">
 
           {/* Scrolling continuous flex track */}
           <div className="infinite-scroll-track">
@@ -199,23 +264,6 @@ export const TestimonialsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* =========================================================================
-            MOBILE/TABLET SWIPE VIEW (Manual swiping scroll snaps)
-            ========================================================================= */}
-        <div className="block md:hidden">
-          <div className="flex flex-row overflow-x-auto snap-x snap-mandatory gap-6 pb-8 scrollbar-none">
-            {reviews.map((review) => (
-              <ReviewCard
-                key={`mobile-${review.id}`}
-                review={review}
-                uniqueId={`mobile-${review.id}`}
-                isExpanded={!!expandedReviews[`mobile-${review.id}`]}
-                onToggleExpand={() => toggleExpand(`mobile-${review.id}`)}
-              />
-            ))}
-          </div>
-        </div>
-
       </div>
     </section>
   );
@@ -245,7 +293,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
     >
       <div>
         {/* Header Profile Row */}
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-start justify-between mb-5">
           <div className="flex items-center gap-3">
             {/* Initial teal/green circle avatar */}
             <div className={`w-11 h-11 ${review.bgColor} rounded-full flex items-center justify-center text-white font-extrabold text-sm tracking-wide shadow-sm transform group-hover:scale-105 transition-transform duration-300`}>
@@ -258,12 +306,17 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
                 <h4 className="font-bold text-[#2d2d2d] text-base group-hover:text-[#1B4332] transition-colors leading-tight">
                   {review.name}
                 </h4>
-                {/* Custom circular blue verified check badge */}
-                <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-blue-500 text-white shadow-xs shrink-0 select-none">
-                  <svg className="w-2.5 h-2.5 stroke-[4.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                  </svg>
-                </span>
+                {/* Hyper-realistic blue verified seal based on reference image - styled slightly larger */}
+                <svg className="w-5.5 h-5.5 shrink-0 select-none drop-shadow-[0_1.5px_2px_rgba(29,161,242,0.2)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path 
+                    d="M22.25 12c0-1.43-.88-2.67-2.15-3.19.15-.38.23-.8.23-1.24 0-1.95-1.58-3.53-3.53-3.53-.44 0-.86.08-1.24.23C15.04 3.02 13.62 2 12 2c-1.62 0-3.04 1.02-3.56 2.27-.38-.15-.8-.23-1.24-.23-1.95 0-3.53 1.58-3.53 3.53 0 .44.08.86.23 1.24C2.63 9.33 1.75 10.57 1.75 12c0 1.43.88 2.67 2.15 3.19-.15.38-.23.8-.23 1.24 0 1.95 1.58 3.53 3.53 3.53.44 0 .86-.08 1.24-.23.52 1.25 1.94 2.27 3.56 2.27 1.62 0 3.04-1.02 3.56-2.27.38.15.8.23 1.24.23 1.95 0 3.53-1.58 3.53-3.53 0-.44-.08-.86-.23-1.24 1.27-.52 2.15-1.76 2.15-3.19z" 
+                    fill="#1da1f2" 
+                  />
+                  <path 
+                    d="M10.75 15.38l-3.63-3.62 1.06-1.06 2.57 2.56 5.69-5.69 1.06 1.06-6.75 6.75z" 
+                    fill="#fff" 
+                  />
+                </svg>
               </div>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="text-[11px] font-semibold text-gray-500">
@@ -276,13 +329,25 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
               </div>
             </div>
           </div>
-
-          {/* Gray Google Logo in grey circle on the top right */}
-          <div className="w-8 h-8 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 select-none">
-            <svg className="w-4 h-4" viewBox="0 0 24 24">
+ 
+          {/* Authentic, realistic full-color Google G logo on the top right - shifted slightly upward */}
+          <div className="w-8.5 h-8.5 rounded-full bg-white border border-gray-100 shadow-sm flex items-center justify-center select-none transform hover:scale-110 active:scale-95 hover:shadow-md transition-all duration-300 shrink-0 -mt-1 mr-0.5">
+            <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path
-                fill="currentColor"
-                d="M12.24 10.285V13.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.859-3.579-7.859-8s3.53-8 7.859-8c2.46 0 4.105 1.025 5.047 1.926l2.427-2.334C17.955 2.192 15.34 1 12.24 1 6.254 1 1.42 5.835 1.42 11.82s4.834 10.82 10.82 10.82c6.253 0 10.402-4.377 10.402-10.582 0-.715-.078-1.259-.172-1.773H12.24z"
+                fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
               />
             </svg>
           </div>

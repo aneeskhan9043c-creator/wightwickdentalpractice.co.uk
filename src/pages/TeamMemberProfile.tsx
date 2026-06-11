@@ -26,51 +26,73 @@ export const TeamMemberProfile: React.FC = () => {
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-4xl mx-auto px-4 md:px-8 pt-8">
-        {/* Large 16:9 Image Placeholder */}
-        <div className="w-full aspect-video bg-gray-200 rounded-2xl overflow-hidden mb-12 flex items-center justify-center flex-col relative shadow-md">
-          <User className="w-24 h-24 mb-4 text-gray-400 opacity-50" />
-          <span className="text-gray-500 font-medium tracking-widest uppercase text-sm">
-            Professional Portrait
-          </span>
-        </div>
-
-        {/* Doctor Info Header */}
-        <div className="mb-10 text-center md:text-left">
-          <h4 className="text-sm font-bold text-[#00a86b] uppercase tracking-widest mb-3 font-['Lato']">
-            {doctor.title}
-          </h4>
-          <h1 className="font-['Playfair_Display'] font-bold text-4xl md:text-5xl text-[#2d2d2d] mb-4 leading-tight">
-            {doctor.name}
-          </h1>
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-4 text-gray-600 font-['Lato']">
-            <div className="bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm">
-              <span className="font-bold text-xs uppercase tracking-wider text-gray-400 block mb-1">
-                Qualifications
-              </span>
-              <span className="text-sm font-semibold text-gray-800">
-                {doctor.qualifications}
-              </span>
-            </div>
-            <div className="bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm">
-              <span className="font-bold text-xs uppercase tracking-wider text-gray-400 block mb-1">
-                Registration
-              </span>
-              <span className="text-sm font-semibold text-gray-800">
-                GDC: {doctor.gdc}
-              </span>
+      <main className="max-w-5xl mx-auto px-4 md:px-8 pt-8">
+        {/* Elite Split Grid Layout instead of massive stretched banner */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start mt-4">
+          
+          {/* Column 1: Portrait Cover Photo */}
+          <div className="md:col-span-4 md:sticky md:top-24 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+            {doctor.image ? (
+              <div className="w-full aspect-[4/5] bg-gray-100 rounded-xl overflow-hidden relative shadow-inner">
+                <img 
+                  src={doctor.image} 
+                  alt={doctor.name} 
+                  className="w-full h-full object-cover object-center" 
+                />
+              </div>
+            ) : (
+              <div className="w-full aspect-[4/5] bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center flex-col relative shadow-inner">
+                <User className="w-16 h-16 mb-4 text-gray-400 opacity-50" />
+                <span className="text-gray-500 font-medium tracking-widest uppercase text-xs">
+                  Professional Portrait
+                </span>
+              </div>
+            )}
+            
+            {/* Direct Registration/GDC Badge */}
+            <div className="mt-4">
+              <div className="bg-gray-50 px-3.5 py-2.5 rounded-lg border border-gray-100 text-center">
+                <span className="font-bold text-[10px] uppercase tracking-wider text-gray-400 block mb-0.5">
+                  General Dental Council
+                </span>
+                <span className="text-sm font-extrabold text-gray-800">
+                  GDC No. {doctor.gdc}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Detailed Biography */}
-        <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 mb-6 font-['Playfair_Display']">
-            About {doctor.name.split(" ")[0]}
-          </h2>
-          <div className="prose prose-lg text-gray-600 max-w-none font-['Lato'] leading-relaxed whitespace-pre-line">
-            {doctor.fullBio}
+          {/* Column 2: Core Credentials and Full Bio */}
+          <div className="md:col-span-8">
+            <div className="mb-8 text-center md:text-left">
+              <h4 className="text-xs sm:text-sm font-bold text-[#00a86b] uppercase tracking-widest mb-3 font-['Lato']">
+                {doctor.title}
+              </h4>
+              <h1 className="font-['Playfair_Display'] font-extrabold text-4xl md:text-5xl text-[#2d2d2d] mb-4 leading-tight">
+                {doctor.name}
+              </h1>
+              
+              <div className="bg-[#1b4332]/5 border-l-4 border-[#1b4332] px-4 py-3 rounded-r-lg mt-4 max-w-2xl text-left">
+                <span className="font-bold text-[10px] uppercase tracking-wider text-emerald-800 block mb-0.5">
+                  Qualifications
+                </span>
+                <span className="text-sm sm:text-base font-bold text-[#1b4332]">
+                  {doctor.qualifications}
+                </span>
+              </div>
+            </div>
+
+            {/* Detailed Biography Content */}
+            <div className="bg-white rounded-2xl p-6 md:p-10 shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold text-gray-900 mb-6 font-['Playfair_Display'] border-b border-gray-100 pb-3">
+                Professional Overview & Background
+              </h2>
+              <div className="prose prose-emerald text-gray-600 max-w-none font-['Lato'] leading-relaxed whitespace-pre-line text-sm sm:text-base">
+                {doctor.fullBio}
+              </div>
+            </div>
           </div>
+          
         </div>
       </main>
     </div>
