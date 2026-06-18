@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
 import { Star, ChevronRight, Check } from "lucide-react";
+import useEmblaCarousel from "embla-carousel-react";
+import AutoScroll from "embla-carousel-auto-scroll";
 
 // =========================================================================
 // TO ADD OR REMOVE REVIEWS, JUST EDIT THIS DATA ARRAY AND THE LOOP
@@ -70,6 +72,11 @@ export const TestimonialsSection: React.FC = () => {
   // Keep track of which reviews are expanded to read more
   const [expandedReviews, setExpandedReviews] = useState<{ [key: string]: boolean }>({});
 
+  const [emblaRef] = useEmblaCarousel(
+    { loop: true, dragFree: true },
+    [AutoScroll({ playOnInit: true, speed: 1, stopOnInteraction: false, stopOnMouseEnter: true, direction: "backward" })]
+  );
+
   const toggleExpand = (id: string) => {
     setExpandedReviews((prev) => ({
       ...prev,
@@ -82,28 +89,6 @@ export const TestimonialsSection: React.FC = () => {
       className="py-24 bg-gradient-to-b from-[#F9F9F9] to-white border-t border-gray-100 overflow-hidden relative" 
       id="testimonials"
     >
-      
-      {/* CSS Animation Blocks for Infinite Autonomous Slow Scrolling Rightwards */}
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes infiniteScrollRight {
-          0% {
-            transform: translateX(-50%);
-          }
-          100% {
-            transform: translateX(0%);
-          }
-        }
-        .infinite-scroll-track {
-          display: flex;
-          flex-direction: row;
-          width: max-content;
-          animation: infiniteScrollRight 50s linear infinite;
-        }
-        .infinite-scroll-track:hover {
-          animation-play-state: paused !important;
-        }
-      `}} />
-
       <div className="max-w-[1400px] mx-auto px-4 md:px-6 lg:px-12 relative z-10">
         
         {/* Centered High-Impact Premium Google Header */}
@@ -227,33 +212,20 @@ export const TestimonialsSection: React.FC = () => {
         {/* =========================================================================
             UNIFIED RESPONISVE SLAB VIEW (Autonomous infinite slow scrolling rightwards on all devices)
             ========================================================================= */}
-        <div className="relative w-full group py-4 overflow-hidden">
+        <div className="relative w-full group py-4">
 
           {/* Scrolling continuous flex track */}
-          <div className="infinite-scroll-track">
-            {/* First sequence of the slab */}
-            <div className="flex gap-6 pr-6 shrink-0">
-              {reviews.map((review) => (
-                <ReviewCard
-                  key={`normal-${review.id}`}
-                  review={review}
-                  uniqueId={`desktop-normal-${review.id}`}
-                  isExpanded={!!expandedReviews[`desktop-normal-${review.id}`]}
-                  onToggleExpand={() => toggleExpand(`desktop-normal-${review.id}`)}
-                />
-              ))}
-            </div>
-            
-            {/* Duplicate sequence of the slab for the seamless infinite loop */}
-            <div className="flex gap-6 pr-6 shrink-0">
-              {reviews.map((review) => (
-                <ReviewCard
-                  key={`dup-${review.id}`}
-                  review={review}
-                  uniqueId={`desktop-dup-${review.id}`}
-                  isExpanded={!!expandedReviews[`desktop-dup-${review.id}`]}
-                  onToggleExpand={() => toggleExpand(`desktop-dup-${review.id}`)}
-                />
+          <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
+            <div className="flex touch-pan-y">
+              {reviews.map((review, index) => (
+                <div key={index} className="flex-[0_0_auto] min-w-0 mr-6">
+                  <ReviewCard
+                    review={review}
+                    uniqueId={`desktop-normal-${review.id}`}
+                    isExpanded={!!expandedReviews[`desktop-normal-${review.id}`]}
+                    onToggleExpand={() => toggleExpand(`desktop-normal-${review.id}`)}
+                  />
+                </div>
               ))}
             </div>
           </div>

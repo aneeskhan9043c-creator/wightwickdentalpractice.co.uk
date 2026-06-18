@@ -19,18 +19,48 @@ export const AccreditationsSection: React.FC = () => {
 
         {/* Dynamic high-fidelity logos image block */}
         <motion.div 
-          className="flex justify-center items-center py-6 bg-white/50 rounded-2xl overflow-hidden px-4"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          className="relative w-full py-10 rounded-2xl overflow-hidden"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.8 }}
         >
-          <img
-            src={accreditationsBannerImg}
-            alt="Clinic Accreditations and Trust Badges"
-            className="w-full max-w-[1200px] h-auto min-h-[50px] md:min-h-[100px] object-contain premium-btn hover:scale-[1.01]"
-            referrerPolicy="no-referrer"
-          />
+          {/* Fading Edges */}
+          <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+          
+          <div className="flex w-full overflow-hidden">
+            <motion.div
+              className="flex items-center w-max"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, ease: "linear", duration: 24 }}
+            >
+              <div className="flex items-center shrink-0">
+                {[...Array(4)].map((_, i) => (
+                  <div key={`set1-${i}`} className="flex shrink-0 px-10 md:px-20 items-center">
+                    <img
+                      src={accreditationsBannerImg}
+                      alt="Clinic Accreditations and Trust Badges"
+                      className="w-auto h-[120px] md:h-[180px] lg:h-[220px] object-contain opacity-95 transition-opacity"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center shrink-0">
+                {[...Array(4)].map((_, i) => (
+                  <div key={`set2-${i}`} className="flex shrink-0 px-10 md:px-20 items-center">
+                    <img
+                      src={accreditationsBannerImg}
+                      alt="Clinic Accreditations and Trust Badges"
+                      className="w-auto h-[120px] md:h-[180px] lg:h-[220px] object-contain opacity-95 transition-opacity"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>

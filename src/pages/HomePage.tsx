@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Phone, Mail, Menu, X } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import logoImg from "../assets/images/regenerated_image_1780089320182.png";
 import oralSurgeryImg from "../assets/images/regenerated_image_1780150746369.jpg";
 import cosmeticDentistryImg from "../assets/images/regenerated_image_1780150945019.jpg";
@@ -77,12 +77,37 @@ const treatments = [
   },
 ];
 
-const heroImages = [
-  "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=2000",
-  "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&q=80&w=2000",
-  "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=2000",
-  "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=2000",
-  "https://images.unsplash.com/photo-1629909615184-74f495363b67?auto=format&fit=crop&q=80&w=2000"
+const heroSlides = [
+  {
+    image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=2000",
+    highlight: "Deluxe",
+    title: "Dental Care in Wolverhampton",
+    description: "State-of-the-art diagnostics. Purpose-built facility. Unmatched comfort."
+  },
+  {
+    image: "https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&q=80&w=2000",
+    highlight: "Advanced",
+    title: "Implant Treatments",
+    description: "Restore your smile with our cutting-edge implant technology and expert care."
+  },
+  {
+    image: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&q=80&w=2000",
+    highlight: "Comprehensive",
+    title: "Cosmetic Dentistry",
+    description: "Transform the shape, color, and alignment of your teeth with precision."
+  },
+  {
+    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=2000",
+    highlight: "Expert",
+    title: "Orthodontic Solutions",
+    description: "Achieve the straight, beautiful smile you have always wanted."
+  },
+  {
+    image: "https://images.unsplash.com/photo-1629909615184-74f495363b67?auto=format&fit=crop&q=80&w=2000",
+    highlight: "Gentle",
+    title: "Family Dentistry",
+    description: "Providing compassionate, high-quality care for patients of all ages."
+  }
 ];
 
 export function HomePage() {
@@ -92,8 +117,8 @@ export function HomePage() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
-    }, 3000);
+      setCurrentImageIndex((prev) => (prev + 1) % heroSlides.length);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
@@ -189,95 +214,50 @@ export function HomePage() {
       <main className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Premium cross-fading & slow-forward zoom sliding background carousel */}
         <div className="absolute inset-0 z-0 overflow-hidden">
-          {heroImages.map((image, index) => (
+          {heroSlides.map((slide, index) => (
             <div
               key={index}
-              className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-[1200ms] ease-in-out transform ${
+              className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-[2000ms] ease-in-out transform ${
                 index === currentImageIndex
-                  ? "opacity-100 scale-100 pointer-events-auto"
-                  : "opacity-0 scale-105 pointer-events-none"
+                  ? "opacity-100 scale-100 pointer-events-auto z-10"
+                  : "opacity-0 scale-105 pointer-events-none z-0"
               }`}
               style={{
-                backgroundImage: `url("${image}")`,
+                backgroundImage: `url("${slide.image}")`,
               }}
             />
           ))}
           {/* Rich cinematic gradient overlay for extreme text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/25 z-[1]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/25 z-[20]"></div>
         </div>
 
         {/* Content */}
-        <motion.div 
-          className="relative z-10 flex flex-col items-center justify-center text-center px-4 md:px-6 w-full max-w-[1400px] mx-auto pt-[55px] md:pt-0"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.1
-              }
-            }
-          }}
-        >
-          <motion.h1 
-            className="font-['Playfair_Display'] font-extrabold text-[36px] md:text-[48px] text-white leading-tight mb-4 max-w-4xl drop-shadow-xl [text-shadow:_0_4px_8px_rgb(0_0_0_/_40%)]"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { 
-                opacity: 1, 
-                y: 0,
-                transition: { 
-                  duration: 1.6,
-                  ease: [0.16, 1, 0.3, 1]
-                } 
-              }
-            }}
-          >
-            <motion.span 
-              className="text-[#1B4332] bg-white/95 px-4 py-0.5 rounded-2xl inline-block mr-2 shadow-md [text-shadow:none]"
-              variants={{
-                hidden: { scale: 0.9, opacity: 0 },
-                visible: { 
-                  scale: 1, 
-                  opacity: 1,
-                  transition: { 
-                    duration: 1.4,
-                    ease: [0.16, 1, 0.3, 1],
-                    delay: 0.3
-                  }
-                }
-              }}
+        <div className="relative z-30 flex flex-col items-center justify-center text-center px-4 md:px-6 w-full max-w-[1400px] mx-auto pt-[55px] md:pt-0">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentImageIndex}
+              initial={{ opacity: 0, y: 20, filter: "blur(5px)", scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
+              exit={{ opacity: 0, y: -20, filter: "blur(5px)", scale: 1.02 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="flex flex-col items-center"
             >
-              Deluxe
-            </motion.span>{" "}
-            Dental Care in Wolverhampton
-          </motion.h1>
-          <motion.p 
-            className="font-['Lato'] text-[18px] text-gray-100 font-medium tracking-wider mb-10 max-w-2xl px-2 drop-shadow-md"
-            variants={{
-              hidden: { opacity: 0, y: 15, filter: "blur(3px)" },
-              visible: { 
-                opacity: 1, 
-                y: 0, 
-                filter: "blur(0px)",
-                transition: { 
-                  duration: 1.8,
-                  ease: [0.16, 1, 0.3, 1]
-                } 
-              }
-            }}
-          >
-            State-of-the-art diagnostics. Purpose-built facility. Unmatched
-            comfort.
-          </motion.p>
+              <h1 className="font-['Playfair_Display'] font-extrabold text-[36px] md:text-[48px] text-white leading-tight mb-4 max-w-4xl drop-shadow-xl [text-shadow:_0_4px_8px_rgb(0_0_0_/_40%)]">
+                <span className="text-[#1B4332] bg-white/95 px-4 py-0.5 rounded-2xl inline-block mr-2 shadow-md [text-shadow:none]">
+                  {heroSlides[currentImageIndex].highlight}
+                </span>{" "}
+                {heroSlides[currentImageIndex].title}
+              </h1>
+              <p className="font-['Lato'] text-[18px] text-gray-100 font-medium tracking-wider mb-10 max-w-2xl px-2 drop-shadow-md">
+                {heroSlides[currentImageIndex].description}
+              </p>
+            </motion.div>
+          </AnimatePresence>
           <motion.div 
-            className="flex flex-col sm:flex-row gap-5 mt-8 items-center justify-center w-full"
-            variants={{
-              hidden: { opacity: 0, y: 15 },
-              visible: { opacity: 1, y: 0, transition: { duration: 1.8, ease: [0.16, 1, 0.3, 1] } }
-            }}
+            className="flex flex-col sm:flex-row gap-5 mt-2 items-center justify-center w-full"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.a
               href="#booking-section"
@@ -324,7 +304,7 @@ export function HomePage() {
               Explore Our Clinic
             </motion.button>
           </motion.div>
-        </motion.div>
+        </div>
       </main>
 
       {/* Premium Treatments Section */}
